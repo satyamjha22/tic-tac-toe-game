@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
+import GameBoard from "./GameBoard";
+import GameStatus from "./GameStatus";
 
 // Define a functional component called TicTacToe
 export default function TicTacToe() {
@@ -75,10 +77,6 @@ export default function TicTacToe() {
     setTurnPlay("x");
     setIsDraw(false);
   };
-  // Component for individual cells on the game board
-  const Cell = ({ num }) => {
-    return <td onClick={() => handleClick(num)}>{cells[num]}</td>;
-  };
   // useEffect to check for a winner whenever the cells array changes
   useEffect(() => {
     checkForWinner(cells);
@@ -94,36 +92,13 @@ export default function TicTacToe() {
 
   return (
     <div className="container">
-      <table>
-        <caption>Turn : {turnPlay}</caption>
-        <tbody>
-          <tr>
-            <Cell num={0} />
-            <Cell num={1} />
-            <Cell num={2} />
-          </tr>
-          <tr>
-            <Cell num={3} />
-            <Cell num={4} />
-            <Cell num={5} />
-          </tr>
-          <tr>
-            <Cell num={6} />
-            <Cell num={7} />
-            <Cell num={8} />
-          </tr>
-        </tbody>
-      </table>
-      {isDraw ? (
-        <>
-          <h1>Draw!</h1> <button onClick={handleRestart}>Restart Game</button>
-        </>
-      ) : winner ? (
-        <>
-          <h1>{winner} is the winner</h1>{" "}
-          <button onClick={handleRestart}>Restart Game</button>
-        </>
-      ) : null}
+      <GameStatus
+        turnPlay={turnPlay}
+        isDraw={isDraw}
+        winner={winner}
+        handleRestart={handleRestart}
+      />
+      <GameBoard cells={cells} handleClick={handleClick} />
     </div>
   );
 }
